@@ -207,6 +207,15 @@
   .leaflet-popup-tip{ background:var(--panel); }
   .leaflet-popup-content b{ font-family:'Newsreader', serif; }
   .leaflet-container{ background:#0b1016; }
+  [data-theme="dark"] .leaflet-tile-pane{
+    filter: invert(1) hue-rotate(180deg) saturate(0.6) brightness(0.95) contrast(0.95);
+  }
+  .leaflet-control-attribution{
+    background: var(--panel) !important;
+    color: var(--text-faint) !important;
+    font-size: 0.7rem !important;
+  }
+  .leaflet-control-attribution a{ color: var(--text-soft) !important; }
 
   /* layout: sidebar + map */
   .layout-grid{
@@ -575,9 +584,7 @@ const PAGE_SIZE = 30;
 /* ---------- theme (dark/light) ---------- */
 const THEME_KEY = 'tevarih-theme';
 function setMapFilterForTheme(theme){
-  const mapEl = document.getElementById('map');
-  if (!mapEl) return;
-  mapEl.style.filter = theme === 'light' ? 'none' : 'invert(1) hue-rotate(180deg) saturate(0.6) brightness(0.95) contrast(0.95)';
+  // artık CSS ile hallediliyor (.leaflet-tile-pane), burada yapılacak bir şey yok
 }
 function applyTheme(theme){
   document.documentElement.setAttribute('data-theme', theme);
@@ -693,8 +700,6 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '&copy; OpenStreetMap katkıda bulunanları',
   maxZoom: 18
 }).addTo(map);
-// dark filter for cool/cold tone
-document.getElementById('map').style.filter = 'invert(1) hue-rotate(180deg) saturate(0.6) brightness(0.95) contrast(0.95)';
 
 let markerLayer = L.layerGroup().addTo(map);
 

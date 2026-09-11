@@ -513,7 +513,7 @@
       <div class="result-count" id="resultCount"></div>
 
       <div class="city-col" id="cityPanel">
-        <h3 id="cityPanelTitle">Kütüphane Şehirleri</h3>
+        <h3 id="cityPanelTitle">Eser Nüshalarının Bulunduğu Şehirler</h3>
         <div id="cityList"></div>
       </div>
     </aside>
@@ -748,7 +748,7 @@ function renderCitySummary(filtered){
   }
 
   if (mode === 'babinger') {
-    title = 'Kütüphane Şehirleri';
+    title = 'Eser Nüshalarının Bulunduğu Şehirler';
     source = filtered.filter(d => d.koleksiyon === 'Babinger');
     field = d => (d.detay.sehir || '').trim();
   } else {

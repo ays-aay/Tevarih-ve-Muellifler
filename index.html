@@ -154,10 +154,10 @@ permalink: /
   }
   .coll-grid{
     display:grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     gap:18px;
   }
-  @media (max-width:640px){ .coll-grid{ grid-template-columns:1fr; } }
+  @media (max-width:900px){ .coll-grid{ grid-template-columns:1fr; } }
   .coll-card{
     display:block;
     background:var(--panel);
@@ -169,10 +169,12 @@ permalink: /
   .coll-card:hover{ transform:translateY(-2px); }
   .coll-card.babinger:hover{ border-color:var(--babinger); background:var(--babinger-dim); }
   .coll-card.tahir:hover{ border-color:var(--tahir); background:var(--tahir-dim); }
+  .coll-card.derc:hover{ border-color:#c98a3f; background:rgba(201,138,63,0.12); }
   .coll-card .eyebrow2{ font-size:0.74rem; color:var(--text-faint); letter-spacing:0.08em; text-transform:uppercase; }
   .coll-card h3{ font-size:1.5rem; font-style:italic; margin-top:8px; }
   .coll-card.babinger h3{ color:var(--babinger); }
   .coll-card.tahir h3{ color:var(--tahir); }
+  .coll-card.derc h3{ color:#c98a3f; }
   .coll-card p{ color:var(--text-soft); font-size:0.88rem; margin-top:10px; }
   .coll-card .count{
     margin-top:16px;
@@ -203,21 +205,23 @@ permalink: /
     <p>Franz Babinger'in Osmanlı tarih yazarları kataloğu ile Bursalı Mehmed Tâhir'in Osmanlı Müellifleri'ni tek bir aranabilir dizinde bir araya getiren dijital envanter.</p>
 
     <div class="stats">
-      <div class="stat"><b>659</b><span>müellif</span></div>
-      <div class="stat"><b>3.137</b><span>kayıt</span></div>
+      <div class="stat"><b>1.088</b><span>müellif</span></div>
+      <div class="stat"><b>3.697</b><span>kayıt</span></div>
       <div class="stat"><b>1412–1925</b><span>dönem aralığı</span></div>
     </div>
 
     <div class="cta-row">
       <a class="btn primary" href="{{ site.baseurl }}/kesif.html">Keşfet</a>
-      <a class="btn secondary" href="{{ site.baseurl }}/about.html">Proje Hakkında</a>
+      <a class="btn secondary" href="{{ site.baseurl }}/liste.html">Dijital Katalog</a>
+      <a class="btn secondary" href="{{ site.baseurl }}/analiz.html">Kütüphane Analizleri</a>
+      <a class="btn secondary" href="{{ site.baseurl }}/hakkinda.html">Proje Hakkında</a>
     </div>
   </div>
 </div>
 
 <div class="colls">
   <div class="wrap">
-    <h2>İki kaynak, tek dizin</h2>
+    <h2>Üç kaynak, tek dizin</h2>
     <div class="coll-grid">
       <a class="coll-card babinger" href="{{ site.baseurl }}/kesif.html?koleksiyon=Babinger">
         <div class="eyebrow2">Franz Babinger</div>
@@ -227,9 +231,15 @@ permalink: /
       </a>
       <a class="coll-card tahir" href="{{ site.baseurl }}/kesif.html?koleksiyon=Tahir">
         <div class="eyebrow2">Bursalı Mehmed Tâhir</div>
-        <h3>Tâhir</h3>
-        <p>Osmanlı Müellifleri — müelliflerin biyografileri, eserleri ve kabir yerleriyle birlikte derlenmiş bibliyografik kaynak.</p>
+        <h3>Müverrihler</h3>
+        <p>Osmanlı Müellifleri'nin Tarihçiler (Müverrihler) faslı — müelliflerin biyografileri, eserleri ve kabir yerleriyle birlikte derlenmiş bibliyografik kaynak.</p>
         <div class="count">967 <span>kayıt</span></div>
+      </a>
+      <a class="coll-card derc" href="{{ site.baseurl }}/kesif.html?koleksiyon=Tahir-Derc">
+        <div class="eyebrow2">Bursalı Mehmed Tâhir</div>
+        <h3>Derç Edilmemiş</h3>
+        <p>Osmanlı Müellifleri'nde ayrı madde açılmadan, eser adı ve müellifiyle kısaca listelenen eserler.</p>
+        <div class="count">560 <span>kayıt</span></div>
       </a>
     </div>
   </div>

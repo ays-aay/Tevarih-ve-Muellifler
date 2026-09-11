@@ -1,0 +1,35 @@
+---
+# collection "Browse" page
+layout: page
+---
+{{ content }}
+<div class="row mb-3 justify-content-center">
+    <div class="col-md-8 text-center">
+        <form role="search" id="browseFilter" onsubmit="submitFilter(); return false;">
+            <div class="input-group input-group-lg">
+                <input type="text" class="form-control" id="filterTextBox" placeholder="Ara ... " aria-label="Ara"> 
+<button class="btn btn-success" type="submit" title="Filtrele" id="filterButton">Ara</button>
+<button class="btn btn-outline-secondary filter" onclick="resetFilter(); return false;" data-filter="">Sıfırla</button>
+            </div>
+        </form>
+        <div class="h2" id="numberOf"></div>
+    </div>
+    <div class="col-md-2">
+        <div class="dropdown">
+            <button class="btn btn-secondary mt-1 dropdown-toggle" type="button" id="browseSortButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Sırala: <span id="sortFilter">Rastgele</span>
+</button>
+<div class="dropdown-menu browse-sort-menu" aria-labelledby="browseSortButton">
+    <button class="dropdown-item browse-sort-item active" data-filter="random">Rastgele</button>
+    <button class="dropdown-item browse-sort-item" data-filter="eser_adi">Eser Adı</button>
+    <button class="dropdown-item browse-sort-item" data-filter="muellif_adi">Müellif</button>
+    <button class="dropdown-item browse-sort-item" data-filter="telif_tarih_miladi">Tarih</button>
+</div>
+        </div>
+    </div>
+</div>
+<div id="loadingIcon" class="text-center">
+    <div class="spinner-border text-dark" role="status"><span class="visually-hidden">Loading...</span></div>
+</div>
+<div class="row" id="browseItems"></div>
+{% include js/browse-js.html %}

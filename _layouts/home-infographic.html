@@ -1,0 +1,28 @@
+---
+# Default home page with boxes providing collection stats
+layout: page
+---
+<div class="row">
+  <div class="col-md-8">
+    {% include index/description.html %}
+    {% include index/featured-terms.html field="padisah_donemi" title="Öne Çıkan Dönemler" btn-color="primary" max=5 %}
+{% include index/featured-terms.html field="muellif_adi" title="Öne Çıkan Müellifler" btn-color="primary" max=5 %}
+  </div>
+  <div class="col-md-4">  
+<div class="card mb-3">
+    <div class="card-body text-center">
+        <a href="{{ site.organization-link }}" title="{{ site.organization-name | escape }}">
+            <img class="img-fluid" src="{{ '/assets/img/logo.png' | relative_url }}" alt="{{ site.organization-name | escape }}">
+        </a>
+    </div>
+</div>
+    {% include index/time.html %}
+<div class="card mb-3">
+    <div class="card-body">
+        <h2 class="card-title h5">Coğrafya</h2>
+        <a class="btn btn-outline-secondary" href="{{ '/map.html' | relative_url }}">Haritayı Gör</a>
+    </div>
+</div>
+    {% include index/objects.html %}
+  </div>
+</div>

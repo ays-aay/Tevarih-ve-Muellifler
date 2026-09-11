@@ -1,0 +1,163 @@
+{%- if site.data.theme.icons -%}{% assign icons = site.data.theme.icons %}{% else %}
+{% assign cb_icons = site.pages | where: "name","cb-icons.svg" | first %}
+{% assign icons = cb_icons.icons %}{%- endif -%}
+{% if site.data.theme.browse-child-objects == true %}
+{%- assign items = site.data[site.metadata] | where_exp: 'item','item.objectid' -%}
+{% else %}
+{%- assign items = site.data[site.metadata] | where_exp: 'item','item.objectid' | where_exp: 'item','item.parentid == nil' -%}
+{% endif %}
+{%- assign fields = site.data.config-browse -%}
+<script>
+
+var items = [
+    {% for i in items %}
+    { "title":{{ i.title | strip | jsonify }}, "muellif_adi":{{ i.muellif_adi | strip | jsonify }}, "eser_adi":{{ i.eser_adi | strip | jsonify }}, "telif_tarih_miladi":{{ i.telif_tarih_miladi | strip | jsonify }}, "muellif_olum_tarihi":{{ i.muellif_olum_tarihi | strip | jsonify }}, "padisah_donemi":{{ i.padisah_donemi | strip | jsonify }}, "format":{% if i.format %}{{ i.format | jsonify }}{% else %}""{% endif %}, {% if i.youtubeid %} "youtube": {{ i.youtubeid | jsonify }}, {% endif %}{% if i.filename contains '/' %}"filename": "{{ i.filename }}" {% else %}"filename":"{{ '/objects/' | relative_url | append: i.filename }}"{% endif %}, "link": "{% if i.parentid %}{{ i.parentid }}#{{ i.objectid }}{% else %}{{ i.objectid }}{% endif %}", "id":{{ i.objectid | jsonify }} }{% unless forloop.last %},{% endunless %}{% endfor %}
+];
+
+var currentSortField = "random";
+var currentSortLabel = "Rastgele";
+
+function makeCard(obj) {
+    var itemHref = "{{ '/item.html' | relative_url | append: '?id=' }}" + obj.link;
+    
+    // Sıralama alanına göre kart başlığını belirle
+   var cardTitle;
+if (currentSortField === "eser_adi") {
+    cardTitle = obj.eser_adi || obj.muellif_adi || "Bilinmiyor";
+} else if (currentSortField === "telif_tarih_miladi") {
+    cardTitle = obj.telif_tarih_miladi || obj.muellif_adi || "Bilinmiyor";
+} else if (currentSortField === "muellif_olum_tarihi") {
+    cardTitle = obj.muellif_olum_tarihi || obj.muellif_adi || "Bilinmiyor";
+} else if (currentSortField === "padisah_donemi") {
+    cardTitle = obj.padisah_donemi || obj.muellif_adi || "Bilinmiyor";
+} else {
+    cardTitle = obj.muellif_adi || "Müellif Bilinmiyor";
+}
+
+    var card = '<div class="item col-lg-4 col-md-6 col-sm-12 mb-2"><div class="card h-100">';
+    card += '<div class="card-body">';
+    card += '<h5 class="card-title"><a href="' + itemHref + '" class="text-dark">' + cardTitle + '</a></h5>';
+    card += '<hr>';
+    if(obj.muellif_adi) card += '<p class="mb-1"><small><strong style="color:#8B6914;">Müellif:</strong> ' + obj.muellif_adi + '</small></p>';
+    if(obj.eser_adi) card += '<p class="mb-1"><small><strong style="color:#8B6914;">Eser Adı:</strong> ' + obj.eser_adi + '</small></p>';
+    if(obj.telif_tarih_miladi) card += '<p class="mb-1"><small><strong style="color:#8B6914;">Tarih:</strong> ' + obj.telif_tarih_miladi + '</small></p>';
+    if(obj.muellif_olum_tarihi) card += '<p class="mb-1"><small><strong style="color:#8B6914;">Müellif Ölüm Tarihi:</strong> ' + obj.muellif_olum_tarihi + '</small></p>';
+    if(obj.padisah_donemi) card += '<p class="mb-1"><small><strong style="color:#8B6914;">Padişah Dönemi:</strong> ' + obj.padisah_donemi + '</small></p>';
+    card += '</div>';
+    card += '<div class="card-footer text-end"><a href="' + itemHref + '" class="text-warning fw-bold">Detay →</a></div>';
+    card += '</div></div>';
+    return card;
+}
+
+function filterItems(arr,q) {
+    loadingIcon.classList.remove("d-none");
+    if (q=="") { 
+        var filteredItems = arr; 
+    } else {
+        q = q.trim().toUpperCase(); 
+        var filteredItems = [];
+        for (var i = 0, len = arr.length; i < len; i++) {
+            var val = "";
+            for (var k in arr[i]) { 
+                if (k != "img") { val += arr[i][k] + " "; }
+            }
+            if(val.toUpperCase().indexOf(q) != -1){
+                filteredItems.push(arr[i]);
+            }
+        }
+    }
+    document.querySelector("#numberOf").innerHTML = filteredItems.length + " / " + items.length + " kayıt";
+    var cards = "";
+    for (var i = 0, len = filteredItems.length; i < len; i++) {
+        cards += makeCard(filteredItems[i]);
+    }
+    browseItemsDiv.innerHTML = cards;
+    if (q != "") { filterTextBox.focus(); }
+    loadingIcon.classList.add("d-none");
+};
+
+function shuffle(array) {
+    var m = array.length, t, i;
+    while (m) {
+        i = Math.floor(Math.random() * m--);
+        t = array[m];
+        array[m] = array[i];
+        array[i] = t;
+    }
+    return array;
+}
+
+shuffle(items);
+
+var loadingIcon = document.querySelector("#loadingIcon");
+var filterTextBox = document.querySelector('#filterTextBox');
+var filterButton = document.querySelector("#filterButton");
+var browseItemsDiv = document.querySelector("#browseItems");
+
+var query = "";
+if(window.location.hash) {
+    var hashValue = decodeURIComponent(location.hash.substr(1));
+    if (hashValue != 'maincontent') { 
+        query = hashValue;
+    } else {
+        query = "";
+    }
+    filterTextBox.value = query;
+    filterItems(items,query);
+} else {
+    query = "";
+    filterItems(items,query);
+}
+
+function submitFilter() {
+    query = filterTextBox.value;
+    window.location.hash = encodeURIComponent(query);
+}
+function resetFilter() {
+    query = "";
+    filterTextBox.value = query;
+    window.location.hash = encodeURIComponent(query);
+}
+
+window.addEventListener("hashchange", function() {
+    var hashValue = decodeURIComponent(location.hash.substr(1));
+    if (hashValue != 'maincontent') { 
+        query = hashValue;
+        filterTextBox.value = query;
+        filterItems(items,query);
+    }
+});
+
+function sorting(json_object, key_to_sort_by) {
+    function sortByKey(a, b) {
+        var x = a[key_to_sort_by];
+        var y = b[key_to_sort_by];
+        if (typeof x === 'string' ) { x = x.toUpperCase(); }
+        if (typeof y === 'string' ) { y = y.toUpperCase(); }
+        return ((x==null) ? 1: (y==null) ? -1: (x < y) ? -1 : ((x > y) ? 1 : 0));
+    }
+    json_object.sort(sortByKey);
+};
+
+var sortFilter = document.querySelector("#sortFilter");
+var sortOptions = document.querySelectorAll(".browse-sort-item");
+sortOptions.forEach((button) => {
+  button.addEventListener("click", (event) => {
+    var field = button.dataset.filter;
+    var display_name = button.textContent;
+    var query = filterTextBox.value;
+    sortOptions.forEach((option) => { option.classList.remove("active"); } );
+    button.classList.add("active");
+    sortFilter.innerHTML = display_name;
+    currentSortField = field;
+    currentSortLabel = display_name;
+    if (field != 'random') {
+        sorting(items, field);
+        filterItems(items, query);
+    } else {
+        shuffle(items);
+        filterItems(items, query);
+    }
+  });
+}); 
+</script>

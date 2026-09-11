@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap');
+/* --- Altın Sarısı ve Bordo Uyumu --- */
+.p-5.mb-4.bg-light.rounded-3, .jumbotron {
+    background-color: #fdfaf5 !important;
+    border: 2px solid #D4A017 !important;
+    border-left: 15px solid #8B1A1A !important;
+}
+.navbar {
+    background-color: #8B1A1A !important;
+    border-bottom: 3px solid #D4A017 !important;
+}
+.btn-primary, .btn-success {
+    background-color: #D4A017 !important;
+    border-color: #B8860B !important;
+    color: #2C1810 !important;
+    font-weight: bold !important;
+}
+.btn-primary:hover, .btn-success:hover {
+    background-color: #8B1A1A !important;
+    color: #ffffff !important;
+}
+.card {
+    border-top: 4px solid #D4A017 !important;
+}
+/* --- Font ve Boşluk İyileştirmeleri --- */
+body {
+    font-family: 'Source Serif 4', Georgia, serif !important;
+    font-weight: 400;
+    line-height: 1.5;
+    background-color: #f5f0e8 !important;
+    font-size: 15px !important;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif !important;
+    margin-bottom: 0.6rem !important;
+}
+p {
+    margin-bottom: 0.6rem !important;
+    font-weight: 400 !important;
+}
+.card-title {
+    font-family: 'Playfair Display', serif !important;
+}
+.card-text {
+    font-family: 'Source Serif 4', serif !important;
+    font-size: 0.95rem !important;
+    line-height: 1.6 !important;
+    font-weight: 400 !important;
+}
+.display-4 {
+    font-size: 4rem !important;
+}
+.lead {
+    font-size: 1.3rem !important;
+    font-weight: 400 !important;
+}

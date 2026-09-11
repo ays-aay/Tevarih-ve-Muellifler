@@ -1,0 +1,105 @@
+---
+---
+@charset "utf-8";
+
+// Base variables required by base.scss
+$base-font-family: "";
+$base-font-size: "";
+$text-color: "";
+$link-color: "";
+
+@import "base", "pages", "custom";
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap');
+body {
+  background-color: #f5f0e8 !important;
+  font-family: 'Source Serif 4', Georgia, serif !important;
+  font-weight: 400;
+  line-height: 1.6;
+  font-size: 15px;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', Georgia, serif !important;
+  font-weight: 700 !important;
+  margin-bottom: 0.8rem !important;
+}
+#home-banner {
+  background-image: url('../img/background.jpg') !important;
+  background-size: 100% !important;
+  background-repeat: no-repeat !important;
+  background-position: center 30% !important;
+}
+.display-4 {
+  font-family: 'Playfair Display', Georgia, serif !important;
+  font-size: 4rem !important;
+  font-weight: 700 !important;
+}
+.lead {
+  font-size: 1.2rem !important;
+  font-weight: 400 !important;
+}
+.card {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  border-color: #d4a843 !important;
+}
+.card-footer {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  border-top-color: #d4a843 !important;
+}
+.navbar.bg-dark {
+  background-color: #8B1A1A !important;
+}
+.navbar-nav .nav-link {
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-weight: 600 !important;
+  font-family: 'Source Serif 4', Georgia, serif !important;
+}
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+  color: #d4a843 !important;
+}
+.btn-primary {
+  background-color: #d4a843 !important;
+  border-color: #d4a843 !important;
+  color: #2C1810 !important;
+}
+.btn-primary:hover {
+  background-color: #6b1414 !important;
+  border-color: #6b1414 !important;
+}
+.btn-outline-primary {
+  color: #8B1A1A !important;
+  border-color: #8B1A1A !important;
+}
+.btn-outline-primary:hover {
+  background-color: #8B1A1A !important;
+  color: #fff !important;
+}
+.btn-warning, .btn-outline-warning {
+  background-color: #d4a843 !important;
+  border-color: #d4a843 !important;
+  color: #fff !important;
+}
+a {
+  color: #8B1A1A !important;
+}
+a:hover {
+  color: #d4a843 !important;
+}
+#skip-to-content {
+  display: none !important;
+}
+#scroll-to-top {
+  display: none !important;
+}
+footer.bg-dark {
+  background-color: #3a1a1a !important;
+}
+.container {
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
+}
+.page-content p, main p {
+  line-height: 1.8 !important;
+  font-family: 'Source Serif 4', Georgia, serif !important;
+}

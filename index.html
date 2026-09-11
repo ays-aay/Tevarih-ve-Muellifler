@@ -1,0 +1,260 @@
+---
+layout: null
+title: Tevârih ve Müellifler
+permalink: /
+---
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tevârih ve Müellifler</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg: #0d1527;
+    --panel: #121a2c;
+    --panel-2: #1a2338;
+    --border: rgba(160,180,220,0.10);
+    --text: #dce4ec;
+    --text-soft: #8a95ab;
+    --text-faint: #57647a;
+    --babinger: #4fb3d9;
+    --babinger-dim: rgba(79,179,217,0.14);
+    --tahir: #a48ce8;
+    --tahir-dim: rgba(164,140,232,0.14);
+    --accent: #e0a83f;
+  }
+  [data-theme="light"]{
+    --bg: #faf6ee;
+    --panel: #ffffff;
+    --panel-2: #f2ecdf;
+    --border: rgba(38,35,32,0.10);
+    --text: #262320;
+    --text-soft: #6b6558;
+    --text-faint: #a39c8c;
+    --babinger: #2f8fb3;
+    --babinger-dim: rgba(47,143,179,0.12);
+    --tahir: #7c6fc4;
+    --tahir-dim: rgba(124,111,196,0.12);
+  }
+  body{ transition:background 0.2s, color 0.2s; }
+  *{ box-sizing:border-box; }
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'IBM Plex Sans', sans-serif;
+    line-height:1.55;
+  }
+  h1,h2,h3{ font-family:'Newsreader', serif; font-weight:500; margin:0; }
+  a{ color:inherit; text-decoration:none; }
+  .wrap{ max-width:920px; margin:0 auto; padding:0 26px; }
+
+  .hero{
+    padding:90px 0 50px;
+    text-align:center;
+    position:relative;
+  }
+  .theme-toggle{
+    position:absolute;
+    top:28px;
+    right:26px;
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    border:1px solid var(--border);
+    background:var(--panel);
+    color:var(--accent);
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .theme-toggle:hover{ border-color:var(--accent); }
+  .theme-toggle svg{ width:18px; height:18px; }
+  .hero .eyebrow{
+    font-size:0.8rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--text-faint);
+    margin-bottom:18px;
+  }
+  .hero h1{
+    font-size:clamp(2.4rem, 6vw, 3.6rem);
+    font-style:italic;
+    line-height:1.1;
+  }
+  .hero p{
+    color:var(--text-soft);
+    max-width:56ch;
+    margin:20px auto 0;
+    font-size:1.02rem;
+  }
+
+  .stats{
+    display:flex;
+    justify-content:center;
+    gap:0;
+    margin:44px auto 0;
+    border:1px solid var(--border);
+    border-radius:2px;
+    overflow:hidden;
+    max-width:640px;
+  }
+  .stats .stat{
+    flex:1;
+    padding:22px 20px;
+    border-right:1px solid var(--border);
+    text-align:center;
+  }
+  .stats .stat:last-child{ border-right:none; }
+  .stats .stat b{
+    display:block;
+    font-family:'Newsreader', serif;
+    font-size:2.1rem;
+    color:var(--accent);
+    line-height:1;
+  }
+  .stats .stat span{ font-size:0.8rem; color:var(--text-soft); }
+
+  .cta-row{
+    display:flex;
+    gap:14px;
+    justify-content:center;
+    margin-top:36px;
+    flex-wrap:wrap;
+  }
+  .btn{
+    display:inline-block;
+    padding:13px 28px;
+    border-radius:2px;
+    font-size:0.92rem;
+    font-weight:600;
+    border:1px solid var(--border);
+    transition:border-color 0.15s, background 0.15s;
+  }
+  .btn.primary{ background:var(--accent); color:#0b1016; border-color:var(--accent); }
+  .btn.primary:hover{ opacity:0.9; }
+  .btn.secondary{ color:var(--text); }
+  .btn.secondary:hover{ border-color:var(--text-soft); }
+
+  .colls{
+    padding:60px 0 90px;
+  }
+  .colls h2{
+    text-align:center;
+    font-size:1.3rem;
+    font-style:italic;
+    color:var(--text-soft);
+    margin-bottom:30px;
+  }
+  .coll-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:18px;
+  }
+  @media (max-width:640px){ .coll-grid{ grid-template-columns:1fr; } }
+  .coll-card{
+    display:block;
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:2px;
+    padding:28px 26px;
+    transition:background 0.15s, border-color 0.15s, transform 0.15s;
+  }
+  .coll-card:hover{ transform:translateY(-2px); }
+  .coll-card.babinger:hover{ border-color:var(--babinger); background:var(--babinger-dim); }
+  .coll-card.tahir:hover{ border-color:var(--tahir); background:var(--tahir-dim); }
+  .coll-card .eyebrow2{ font-size:0.74rem; color:var(--text-faint); letter-spacing:0.08em; text-transform:uppercase; }
+  .coll-card h3{ font-size:1.5rem; font-style:italic; margin-top:8px; }
+  .coll-card.babinger h3{ color:var(--babinger); }
+  .coll-card.tahir h3{ color:var(--tahir); }
+  .coll-card p{ color:var(--text-soft); font-size:0.88rem; margin-top:10px; }
+  .coll-card .count{
+    margin-top:16px;
+    font-family:'Newsreader', serif;
+    font-size:1.15rem;
+    color:var(--text);
+  }
+  .coll-card .count span{ color:var(--text-faint); font-family:'IBM Plex Sans', sans-serif; font-size:0.8rem; }
+
+  footer{
+    padding:30px 0 50px;
+    text-align:center;
+    font-size:0.8rem;
+    color:var(--text-faint);
+    border-top:1px solid var(--border);
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <button class="theme-toggle" id="themeToggle" title="Açık/koyu tema" aria-label="Açık/koyu tema değiştir">
+      <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
+    </button>
+    <div class="eyebrow">Marmara Üniversitesi Dijital Beşerî Bilimler Araştırma Merkezi</div>
+    <h1>Tevârih ve Müellifler</h1>
+    <p>Franz Babinger'in Osmanlı tarih yazarları kataloğu ile Bursalı Mehmed Tâhir'in Osmanlı Müellifleri'ni tek bir aranabilir dizinde bir araya getiren dijital envanter.</p>
+
+    <div class="stats">
+      <div class="stat"><b>659</b><span>müellif</span></div>
+      <div class="stat"><b>3.137</b><span>kayıt</span></div>
+      <div class="stat"><b>1412–1925</b><span>dönem aralığı</span></div>
+    </div>
+
+    <div class="cta-row">
+      <a class="btn primary" href="{{ site.baseurl }}/kesif.html">Keşfet</a>
+      <a class="btn secondary" href="{{ site.baseurl }}/about.html">Proje Hakkında</a>
+    </div>
+  </div>
+</div>
+
+<div class="colls">
+  <div class="wrap">
+    <h2>İki kaynak, tek dizin</h2>
+    <div class="coll-grid">
+      <a class="coll-card babinger" href="{{ site.baseurl }}/kesif.html?koleksiyon=Babinger">
+        <div class="eyebrow2">Franz Babinger</div>
+        <h3>Babinger</h3>
+        <p>Osmanlı tarih yazarları ve eserlerinin, yazma nüshaların bulunduğu kütüphanelerle birlikte kataloglandığı çalışma.</p>
+        <div class="count">2.170 <span>kayıt</span></div>
+      </a>
+      <a class="coll-card tahir" href="{{ site.baseurl }}/kesif.html?koleksiyon=Tahir">
+        <div class="eyebrow2">Bursalı Mehmed Tâhir</div>
+        <h3>Tâhir</h3>
+        <p>Osmanlı Müellifleri — müelliflerin biyografileri, eserleri ve kabir yerleriyle birlikte derlenmiş bibliyografik kaynak.</p>
+        <div class="count">967 <span>kayıt</span></div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<footer>Tevârih ve Müellifler &middot; Marmara Üniversitesi Dijital Beşerî Bilimler Araştırma Merkezi</footer>
+
+<script>
+const THEME_KEY = 'tevarih-theme';
+function applyTheme(theme){
+  document.documentElement.setAttribute('data-theme', theme);
+  const icon = document.getElementById('themeIcon');
+  if (icon) {
+    icon.innerHTML = theme === 'light'
+      ? '<circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M4.2 4.2l1.5 1.5M18.3 18.3l1.5 1.5M2.5 12h2.2M19.3 12h2.2M4.2 19.8l1.5-1.5M18.3 5.7l1.5-1.5" stroke-linecap="round"/>'
+      : '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/>';
+  }
+  localStorage.setItem(THEME_KEY, theme);
+}
+applyTheme(localStorage.getItem(THEME_KEY) || 'dark');
+document.getElementById('themeToggle').addEventListener('click', () => {
+  const current = document.documentElement.getAttribute('data-theme') || 'dark';
+  applyTheme(current === 'dark' ? 'light' : 'dark');
+});
+</script>
+
+</body>
+</html>

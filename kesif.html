@@ -516,6 +516,10 @@
         <h3 id="cityPanelTitle">Eser Nüshalarının Bulunduğu Şehirler</h3>
         <div id="cityList"></div>
       </div>
+      <div class="city-col" id="cityPanel2" style="display:none;">
+        <h3 id="cityPanelTitle2">Müellif Kabir Yerleri</h3>
+        <div id="cityList2"></div>
+      </div>
     </aside>
 
     <div class="map-section">
@@ -555,7 +559,7 @@ const FIELD_LABELS = {
 };
 const HIDE_IN_MODAL = new Set(['objectid','koleksiyon','muellif_adi','eser_adi','latitude','longitude','muellif_id','format','date','title']);
 
-let activeCollections = new Set(['Babinger', 'Tâhir', 'Tâhir-Derç']);
+let activeCollections = new Set(['Babinger', 'Tâhir']);
 let currentPage = 1;
 const PAGE_SIZE = 30;
 
@@ -627,12 +631,12 @@ function renderKaynakPills(){
   options.forEach(opt => {
     const btn = document.createElement('button');
     const isActive = opt.value === null
-      ? activeCollections.size === 3
+      ? (activeCollections.has('Babinger') && activeCollections.has('Tâhir') && activeCollections.size === 2)
       : (activeCollections.has(opt.value) && activeCollections.size === 1);
     btn.className = 'tur-pill' + (isActive ? ' active' : '');
     btn.textContent = opt.label;
     btn.addEventListener('click', () => {
-      activeCollections = opt.value === null ? new Set(['Babinger','Tâhir','Tâhir-Derç']) : new Set([opt.value]);
+      activeCollections = opt.value === null ? new Set(['Babinger','Tâhir']) : new Set([opt.value]);
       document.querySelectorAll('.coll-card').forEach(c => {
         c.classList.toggle('active', activeCollections.has(c.dataset.koleksiyon));
       });
@@ -731,48 +735,26 @@ function renderMap(filtered){
   });
 }
 
-/* ---------- city summary (single panel, changes by collection) ---------- */
+/* ---------- city summary (one or two panels, depending on active collections) ---------- */
 const CITY_PALETTE = ['#4fb3d9','#3fd6b0','#a48ce8','#e0b34f','#e07a9c','#7ee08c','#e0954f','#7a9ee0','#e0e04f','#c96fd9'];
 
-function renderCitySummary(filtered){
-  const babingerCount = filtered.filter(d => d.koleksiyon === 'Babinger').length;
-  const tahirCount = filtered.filter(d => d.koleksiyon === 'Tâhir').length;
+function babingerField(d){ return (d.detay.sehir || '').trim(); }
+function tahirField(d){
+  const sehir = (d.detay.kabir_sehir || '').trim();
+  const ilce = (d.detay.kabir_ilce || '').trim();
+  if (!sehir) return '';
+  if (!ilce || /belirsiz/i.test(ilce)) return sehir;
+  return sehir + ', ' + ilce;
+}
 
-  let mode, title, field, source;
-  if (activeCollections.has('Babinger') && !activeCollections.has('Tâhir')) {
-    mode = 'babinger';
-  } else if (activeCollections.has('Tâhir') && !activeCollections.has('Babinger')) {
-    mode = 'tahir';
-  } else {
-    mode = 'babinger';
-  }
-
-  if (mode === 'babinger') {
-    title = 'Eser Nüshalarının Bulunduğu Şehirler';
-    source = filtered.filter(d => d.koleksiyon === 'Babinger');
-    field = d => (d.detay.sehir || '').trim();
-  } else {
-    title = 'Kabir Yerleri';
-    source = filtered.filter(d => d.koleksiyon === 'Tâhir');
-    field = d => {
-      const sehir = (d.detay.kabir_sehir || '').trim();
-      const ilce = (d.detay.kabir_ilce || '').trim();
-      if (!sehir) return '';
-      if (!ilce || /belirsiz/i.test(ilce)) return sehir;
-      return sehir + ', ' + ilce;
-    };
-  }
-
-  document.getElementById('cityPanelTitle').textContent = title;
-
+function fillCityList(containerId, source, field){
   const counts = {};
   source.forEach(d => {
     const city = field(d);
     if (city && !/belirsiz/i.test(city)) counts[city] = (counts[city] || 0) + 1;
   });
-
   const entries = Object.entries(counts).sort((a,b) => b[1]-a[1]).slice(0,8);
-  const container = document.getElementById('cityList');
+  const container = document.getElementById(containerId);
   container.innerHTML = '';
   if (!entries.length) {
     container.innerHTML = '<div style="font-size:0.82rem; color:var(--text-faint);">Kayıt yok</div>';
@@ -792,6 +774,45 @@ function renderCitySummary(filtered){
   });
 }
 
+function renderCitySummary(filtered){
+  const hasBabinger = activeCollections.has('Babinger');
+  const hasTahir = activeCollections.has('Tâhir');
+  const hasDerc = activeCollections.has('Tâhir-Derç');
+  const panel1 = document.getElementById('cityPanel');
+  const panel2 = document.getElementById('cityPanel2');
+
+  if (hasBabinger && hasTahir) {
+    // ikisi de aktif: iki panel üst üste
+    panel1.style.display = '';
+    panel2.style.display = '';
+    document.getElementById('cityPanelTitle').textContent = 'Eser Nüshalarının Bulunduğu Şehirler';
+    fillCityList('cityList', filtered.filter(d => d.koleksiyon === 'Babinger'), babingerField);
+    document.getElementById('cityPanelTitle2').textContent = 'Müellif Kabir Yerleri';
+    fillCityList('cityList2', filtered.filter(d => d.koleksiyon === 'Tâhir'), tahirField);
+  } else if (hasBabinger) {
+    // sadece Babinger (Derç aktif olsa da onun coğrafi verisi yok, etkisi olmaz)
+    panel1.style.display = '';
+    panel2.style.display = 'none';
+    document.getElementById('cityPanelTitle').textContent = 'Eser Nüshalarının Bulunduğu Şehirler';
+    fillCityList('cityList', filtered.filter(d => d.koleksiyon === 'Babinger'), babingerField);
+  } else if (hasTahir) {
+    // sadece Tâhir-Müverrihîn (Derç aktif olsa da onun coğrafi verisi yok, etkisi olmaz)
+    panel1.style.display = '';
+    panel2.style.display = 'none';
+    document.getElementById('cityPanelTitle').textContent = 'Müellif Kabir Yerleri';
+    fillCityList('cityList', filtered.filter(d => d.koleksiyon === 'Tâhir'), tahirField);
+  } else if (hasDerc) {
+    // sadece Derç Edilmemiş: coğrafi veri hiç yok, yanıltıcı bir başlık göstermeyelim
+    panel1.style.display = '';
+    panel2.style.display = 'none';
+    document.getElementById('cityPanelTitle').textContent = 'Coğrafi Veri';
+    document.getElementById('cityList').innerHTML = '<div style="font-size:0.82rem; color:var(--text-faint);">Bu koleksiyonda kütüphane veya kabir yeri bilgisi bulunmuyor.</div>';
+  } else {
+    panel1.style.display = 'none';
+    panel2.style.display = 'none';
+  }
+}
+
 /* ---------- master render ---------- */
 function render(){
   const filtered = getFiltered();
@@ -806,8 +827,8 @@ document.getElementById('clearFilters').addEventListener('click', () => {
   document.getElementById('search').value = '';
   document.getElementById('yearMin').value = '';
   document.getElementById('yearMax').value = '';
-  activeCollections = new Set(['Babinger','Tâhir','Tâhir-Derç']);
-  document.querySelectorAll('.coll-card').forEach(c => c.classList.add('active'));
+  activeCollections = new Set(['Babinger','Tâhir']);
+  document.querySelectorAll('.coll-card').forEach(c => c.classList.toggle('active', activeCollections.has(c.dataset.koleksiyon)));
   renderKaynakPills();
   currentPage = 1;
   render();

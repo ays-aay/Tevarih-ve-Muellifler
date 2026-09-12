@@ -346,6 +346,9 @@
     padding:10px 12px;
     border-bottom:1px solid var(--border);
   }
+  thead th.sortable{ cursor:pointer; user-select:none; }
+  thead th.sortable:hover{ color:var(--text-soft); }
+  thead th.sortable .sort-arrow{ color:var(--accent); font-size:0.65rem; margin-left:2px; }
   tbody td{
     padding:11px 12px;
     border-bottom:1px solid var(--border);
@@ -506,12 +509,12 @@
     <table>
       <thead>
         <tr>
-          <th>Müellif</th>
+          <th class="sortable" data-sort="muellif">Müellif <span class="sort-arrow"></span></th>
           <th>Eser</th>
           <th>Koleksiyon</th>
           <th>Tür</th>
           <th>Kütüphane</th>
-          <th>Ölüm Tarihi</th>
+          <th class="sortable" data-sort="olum_yil">Ölüm Tarihi <span class="sort-arrow"></span></th>
           <th>Kabir Yeri</th>
           <th>Dönem</th>
         </tr>
@@ -673,18 +676,34 @@ function normalize(str){
 DATA.forEach(d => { d._searchIndex = normalize(d.muellif + ' ' + d.eser); });
 
 /* ---------- filtering ---------- */
+let currentSort = { key: null, dir: 1 };
+
 function getFiltered(){
   const q = normalize(document.getElementById('search').value);
   const yMin = parseInt(document.getElementById('yearMin').value) || null;
   const yMax = parseInt(document.getElementById('yearMax').value) || null;
 
-  return DATA.filter(d => {
+  const result = DATA.filter(d => {
     if (!activeCollections.has(d.koleksiyon)) return false;
     if (q && !d._searchIndex.includes(q)) return false;
     if (yMin && (!d.olum_yil || d.olum_yil < yMin)) return false;
     if (yMax && (!d.olum_yil || d.olum_yil > yMax)) return false;
     return true;
   });
+
+  if (currentSort.key === 'muellif') {
+    result.sort((a, b) => a.muellif.localeCompare(b.muellif, 'tr') * currentSort.dir);
+  } else if (currentSort.key === 'olum_yil') {
+    result.sort((a, b) => {
+      const av = a.olum_yil, bv = b.olum_yil;
+      if (av == null && bv == null) return 0;
+      if (av == null) return 1;  // tarihsizler sona
+      if (bv == null) return -1;
+      return (av - bv) * currentSort.dir;
+    });
+  }
+
+  return result;
 }
 
 /* ---------- table render ---------- */
@@ -776,6 +795,21 @@ document.getElementById('clearFilters').addEventListener('click', () => {
   renderKaynakPills();
   currentPage = 1;
   render();
+});
+document.querySelectorAll('th.sortable').forEach(th => {
+  th.addEventListener('click', () => {
+    const key = th.dataset.sort;
+    if (currentSort.key === key) {
+      currentSort.dir *= -1;
+    } else {
+      currentSort.key = key;
+      currentSort.dir = 1;
+    }
+    document.querySelectorAll('th.sortable .sort-arrow').forEach(s => s.textContent = '');
+    th.querySelector('.sort-arrow').textContent = currentSort.dir === 1 ? '▲' : '▼';
+    currentPage = 1;
+    render();
+  });
 });
 
 render();

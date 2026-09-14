@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Araştırmacı Önerileri ve Görüşleri | Tevârih ve Müellifler</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,500;1,400&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0d1527;
+    --panel: #121a2c;
+    --panel-2: #1a2338;
+    --border: rgba(160,180,220,0.14);
+    --text: #dce4ec;
+    --text-soft: #8a95ab;
+    --text-faint: #57647a;
+    --accent: #e0a83f;
+  }
+  *{ box-sizing:border-box; }
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'IBM Plex Sans', sans-serif;
+  }
+  a{ color:var(--accent); }
+  .wrap{ max-width:640px; margin:0 auto; padding:60px 26px 100px; }
+  .back-link{ font-size:0.85rem; color:var(--text-soft); text-decoration:none; }
+  h1{ font-family:'Newsreader', serif; font-weight:500; font-size:1.8rem; margin:16px 0 6px; color:var(--accent); }
+  p.intro{ color:var(--text-soft); margin:0 0 34px; }
+  label{ display:block; font-size:0.78rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-faint); margin:20px 0 6px; }
+  input[type=text], input[type=email], select, textarea{
+    width:100%;
+    background:var(--panel);
+    border:1px solid var(--border);
+    color:var(--text);
+    padding:11px 13px;
+    border-radius:3px;
+    font-family:inherit;
+    font-size:0.92rem;
+  }
+  input:focus, select:focus, textarea:focus{ outline:none; border-color:var(--accent); }
+  textarea{ min-height:140px; resize:vertical; }
+  .required{ color:var(--accent); }
+  button{
+    margin-top:28px;
+    background:var(--accent);
+    color:#0d1527;
+    border:none;
+    padding:13px 28px;
+    font-size:0.92rem;
+    font-weight:600;
+    border-radius:3px;
+    cursor:pointer;
+  }
+  button:hover{ opacity:0.9; }
+  .note{ margin-top:16px; font-size:0.82rem; color:var(--text-faint); }
+  .error{ color:#e07a7a; font-size:0.85rem; margin-top:8px; display:none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="/Tevarih-ve-Muellifler/kesif.html">← Keşfet'e dön</a>
+  <h1>Araştırmacı Önerileri ve Görüşleri</h1>
+  <p class="intro">Tevârih ve Müellifler platformu hakkındaki öneri, veri düzeltmesi ve görüşlerinizi aşağıdaki formla bize iletebilirsiniz. "Gönder" butonuna bastığınızda kendi e-posta uygulamanız açılacak ve mesajınız hazır şekilde gelecektir.</p>
+
+  <form id="feedbackForm">
+    <label for="ad">Ad Soyad</label>
+    <input type="text" id="ad" name="ad" placeholder="(isteğe bağlı)">
+
+    <label for="eposta">E-posta</label>
+    <input type="email" id="eposta" name="eposta" placeholder="(isteğe bağlı — cevap verebilmemiz için)">
+
+    <label for="konu">Konu</label>
+    <select id="konu" name="konu">
+      <option value="Veri Hatası">Veri Hatası</option>
+      <option value="Öneri">Öneri</option>
+      <option value="Teknik Sorun">Teknik Sorun</option>
+      <option value="Diğer">Diğer</option>
+    </select>
+
+    <label for="kayit">Hangi Müellif / Eser? <span style="text-transform:none; letter-spacing:0;">(veri hatası bildiriyorsanız)</span></label>
+    <input type="text" id="kayit" name="kayit" placeholder="(isteğe bağlı)">
+
+    <label for="mesaj">Mesajınız <span class="required">*</span></label>
+    <textarea id="mesaj" name="mesaj" required></textarea>
+    <div class="error" id="errorMsg">Lütfen mesajınızı yazın.</div>
+
+    <button type="submit">Gönder</button>
+    <div class="note">Bu form doğrudan bir sunucuya kaydetmez; sadece e-posta uygulamanızı hazır bir mesajla açar.</div>
+  </form>
+</div>
+
+<script>
+document.getElementById('feedbackForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  const ad = document.getElementById('ad').value.trim();
+  const eposta = document.getElementById('eposta').value.trim();
+  const konu = document.getElementById('konu').value;
+  const kayit = document.getElementById('kayit').value.trim();
+  const mesaj = document.getElementById('mesaj').value.trim();
+  const errorMsg = document.getElementById('errorMsg');
+
+  if (!mesaj) {
+    errorMsg.style.display = 'block';
+    return;
+  }
+  errorMsg.style.display = 'none';
+
+  const subject = 'Tevârih ve Müellifler - ' + konu;
+  let body = '';
+  if (ad) body += 'Ad Soyad: ' + ad + '\n';
+  if (eposta) body += 'E-posta: ' + eposta + '\n';
+  if (kayit) body += 'İlgili Müellif/Eser: ' + kayit + '\n';
+  body += '\n' + mesaj;
+
+  const mailto = 'mailto:dijital.bb@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+  window.location.href = mailto;
+});
+</script>
+</body>
+</html>

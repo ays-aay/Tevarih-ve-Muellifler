@@ -112,7 +112,9 @@
   }
   .pill-btn:hover{ background:rgba(224,168,63,0.1); }
   @media (max-width:800px){
-    .header-links{ display:none; }
+    .topbar{ padding-right:0; }
+    .header-links{ margin-left:0; width:100%; justify-content:flex-start; }
+    .pill-btn{ font-size:0.65rem; padding:5px 10px; }
   }
   .brand-logo{ height:44px; width:auto; max-width:180px; flex-shrink:0; }
   header h1{
@@ -228,6 +230,7 @@
   }
   @media (max-width: 900px){
     .layout-grid{ grid-template-columns: 1fr; }
+    .sidebar{ max-height:none; overflow-y:visible; }
   }
   .sidebar{
     padding:26px 22px;
@@ -276,8 +279,11 @@
   .sidebar .result-count{ font-size:0.8rem; color:var(--text-faint); }
   .sidebar .city-col{ border-top:1px solid var(--border); padding-top:16px; }
   .map-section .map-box{ border:none; border-radius:0; height:100%; }
-  .map-section{ min-height:500px; }
-  #map{ height:100%; min-height:500px; }
+  .map-section{ min-height:500px; display:flex; flex-direction:column; }
+  #map{ height:500px; min-height:500px; }
+  @media (max-width:900px){
+    #map{ height:420px; min-height:420px; }
+  }
 
   .city-summary{
     display:grid;

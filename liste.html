@@ -110,7 +110,9 @@
   }
   .pill-btn:hover{ background:rgba(224,168,63,0.1); }
   @media (max-width:800px){
-    .header-links{ display:none; }
+    .topbar{ padding-right:0; }
+    .header-links{ margin-left:0; width:100%; justify-content:flex-start; }
+    .pill-btn{ font-size:0.65rem; padding:5px 10px; }
   }
   .brand-logo{ height:44px; width:auto; max-width:180px; flex-shrink:0; }
   header h1{
@@ -217,6 +219,7 @@
   }
   @media (max-width: 900px){
     .layout-grid{ grid-template-columns: 1fr; }
+    .sidebar{ max-height:none; overflow-y:visible; }
   }
   .sidebar{
     padding:26px 22px;
